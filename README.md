@@ -1,5 +1,7 @@
-# Ecommerce-Project
+# Ecommerce Project
 Use SQL for exploring Ecommerce Dataset
+![image](https://github.com/user-attachments/assets/dc267b17-4eb9-4eb4-83bf-b3d329bbe09d)
+
 
 - Author: Nguyen Thuy Hang
 - Date: 2025-06-22
@@ -17,29 +19,14 @@ Use SQL for exploring Ecommerce Dataset
 ### Objective:
 ### 📖 What is this project about? What Business Question will it solve?
 
-Clearly outline what this project does, what business questions the project will solve. 
+This project includes an eCommerce dataset that I explore by using SQL on Google BigQuery. The data originates from the Google Analytics public dataset and represents information from an eCommerce website.
 
-- Provide a brief introduction - Write in bullet point format
-- Point out the main business question
+The main business question this project aims to answer is: How does user behavior and traffic source impact key eCommerce metrics such as visits, pageviews, transactions, bounce rate, revenue, and product purchase patterns over time?
 
-
- _Example:_
-  This project uses Python to analyze transaction data from KPMG to:
-
-✔️ Identify the behavior in customer's first transaction.  
-✔️ Provide actionable insights to increase retention rate   
- 
 
 
 ### 👤 Who is this project for?  
-
-Mention who might benefit from this project 
-
- _Example:_
-
-✔️ Data analysts & business analysts  
-✔️ Decision-makers & stakeholders  
-
+This project is for *business analysts, marketing teams, product managers, and data analysts* who need actionable insights into customer behavior, traffic sources, and sales performance to drive smarter business decisions and optimize the eCommerce experience.
 
 
 ---
@@ -47,7 +34,7 @@ Mention who might benefit from this project
 ## 📂 Dataset Description & Data Structure  
 
 ### 📌 Data Source  
-- Source: (Mention where the dataset is obtained from—Kaggle, company database, government sources, etc.)  
+- Source: the dataset is obtained from Big Query
 - Size: (Mention the number of rows & columns)  
 - Format: (.csv, .sql, .xlsx, etc.)  
 
