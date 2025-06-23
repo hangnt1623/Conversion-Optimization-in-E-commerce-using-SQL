@@ -35,60 +35,330 @@ This project is for *business analysts, marketing teams, product managers, and d
 
 ### 📌 Data Source  
 - Source: the dataset is obtained from Big Query
-- Size: (Mention the number of rows & columns)  
-- Format: (.csv, .sql, .xlsx, etc.)  
 
 ### 📊 Data Structure & Relationships  
 
 #### 1️⃣ Tables Used:  
-Mention how many tables are in the dataset.  
+
+There is a table are in the dataset.  
 
 #### 2️⃣ Table Schema & Data Snapshot  
 
-Table 1: Products Table  
+**👉🏻 Table schema**
 
-👉🏻 Insert a screenshot of table schema 
+| Field Name | Data Type | Description |
+| --- | --- | --- |
+| fullVisitorId | STRING | The unique visitor ID. |
+| date | STRING | The date of the session in YYYYMMDD format. |
+| totals | RECORD | This section contains aggregate values across the session. |
+| totals.bounces | INTEGER | Total bounces (for convenience). For a bounced session, the value is 1, otherwise it is null. |
+| totals.hits | INTEGER | Total number of hits within the session. |
+| totals.pageviews | INTEGER | Total number of pageviews within the session. |
+| totals.visits | INTEGER | The number of sessions (for convenience). This value is 1 for sessions with interaction events. The value is null if there are no interaction events in the session. |
+| totals.transactions | INTEGER | Total number of ecommerce transactions within the session. |
+| trafficSource.source | STRING | The source of the traffic source. Could be the name of the search engine, the referring hostname, or a value of the utm_source URL parameter. |
+| hits | RECORD | This row and nested fields are populated for any and all types of hits. |
+| hits.eCommerceAction | RECORD | This section contains all of the ecommerce hits that occurred during the session. This is a repeated field and has an entry for each hit that was collected. |
+| hits.eCommerceAction.action_type | STRING | The action type. Click through of product lists = 1, Product detail views = 2, Add product(s) to cart = 3, Remove product(s) from cart = 4, Check out = 5, Completed purchase = 6, Refund of purchase = 7, Checkout options = 8, Unknown = 0.<br>Usually this action type applies to all the products in a hit, with the following exception: when hits.product.isImpression = TRUE, the corresponding product is a product impression that is seen while the product action is taking place (i.e., a "product in list view").<br>Example query to calculate number of products in list views:<br>SELECT<br>COUNT(hits.product.v2ProductName)<br>FROM [foo-160803:123456789.ga_sessions_20170101]<br>WHERE hits.product.isImpression == TRUE<br>Example query to calculate number of products in detailed view:<br>SELECT<br>COUNT(hits.product.v2ProductName),<br>FROM<br>[foo-160803:123456789.ga_sessions_20170101]<br>WHERE<br>hits.ecommerceaction.action_type = '2'<br>AND ( BOOLEAN(hits.product.isImpression) IS NULL OR BOOLEAN(hits.product.isImpression) == FALSE ) |
+| hits.product | RECORD | This row and nested fields will be populated for each hit that contains Enhanced Ecommerce PRODUCT data. |
+| hits.product.productQuantity | INTEGER | The quantity of the product purchased. |
+| hits.product.productRevenue | INTEGER | The revenue of the product, expressed as the value passed to Analytics multiplied by 10^6 (e.g., 2.40 would be given as 2400000). |
+| hits.product.productSKU | STRING | Product SKU. |
+| hits.product.v2ProductName | STRING | Product Name. |
 
-📌If the table is too big, only capture a part of it that contains key metrics you used in the projects or put the table in toggle
+Table Snapshot (10 first line)
 
- _Example:_
-
-| Column Name | Data Type | Description |  
-|-------------|----------|-------------|  
-| Product_ID  | INT      | Unique identifier for each product |  
-| Name        | TEXT     | Product name |  
-| Category    | TEXT     | Product category |  
-| Price       | FLOAT    | Price per unit |  
-
-
-Table 2: Sales Transactions  
-
-👉🏻 Insert a screenshot of table schema.
-
-
----
 
 ## ⚒️ Main Process
 
-1️⃣ Data Cleaning & Preprocessing  
-2️⃣ Exploratory Data Analysis (EDA)  
-3️⃣ SQL/ Python Analysis 
+1️⃣ Understand dataset 
 
-- First, explain codes' purpose - what they do
+2️⃣ Explore specific dataset through some requirements
 
-- Then how your query/ code & Insert screenshots of your result
-
-- Finally, explain your observations/ findings from the results  ts findings
-  
- _Describe trends, key metrics, and patterns._  
 
 ---
 
 ## 🔎 Exploring dataset & insights  
 
-👉🏻 Based on the insights and findings above, we would recommend the [stakeholder team] to consider the following:  
+**Query 01: Calculate total visit, pageview, transaction for Jan, Feb and March 2017 (order by month)**
+```sql
+SELECT  FORMAT_DATE('%Y%m', PARSE_DATE('%Y%m%d', date)) AS month_trans
+        ,SUM(totals.visits) AS total_visits
+        ,SUM(totals.pageviews) AS total_pageviews
+        ,SUM(totals.transactions) AS total_transactions
+FROM `bigquery-public-data.google_analytics_sample.ga_sessions_2017*`
+WHERE _table_suffix between '0101' AND '0331'
+GROUP BY month_trans
+ORDER BY month_trans ASC
+```
+| month_trans | total_visits | total_pageviews | total_transactions |
+| --- | --- | --- | --- |
+| 201701 | 64694 | 257708 | 713 |
+| 201702 | 62192 | 233373 | 733 |
+| 201703 | 69931 | 259522 | 993 |
 
-📌 Key Takeaways:  
-✔️ Recommendation 1  
-✔️ Recommendation 2  
-✔️ Recommendation 3
+
+
+**Query 02: Bounce rate per traffic source in July 2017 (Bounce_rate = num_bounce/total_visit) (order by total_visit DESC)**
+```sql
+SELECT  trafficSource.source
+        ,SUM(totals.visits) AS total_visits
+        ,SUM(totals.bounces) AS num_bounce
+        ,ROUND(SUM(totals.bounces)/SUM(totals.visits),3) AS bounce_rates
+FROM bigquery-public-data.google_analytics_sample.ga_sessions_20170701
+GROUP BY trafficSource.source
+ORDER BY trafficSource.source ASC
+```
+| source | total_visits | num_bounce | bounce_rates |
+| --- | --- | --- | --- |
+| (direct) | 335 | 181 | 0.54 |
+| Partners | 17 | 11 | 647 |
+| analytics.google.com | 19 | 13 | 684 |
+| ask | 2 | 2 | 1 |
+| baidu | 8 | 6 | 0.75 |
+| bing | 2 | 1 | 0.5 |
+| blog.golang.org | 2 | 1 | 0.5 |
+| dfa | 1 |  |  |
+| docs.google.com | 1 | 1 | 1 |
+| facebook.com | 46 | 22 | 478 |
+| google | 1172 | 663 | 566 |
+| google.com | 7 | 2 | 286 |
+| l.facebook.com | 3 | 3 | 1 |
+| m.baidu.com | 1 | 1 | 1 |
+| m.facebook.com | 255 | 152 | 596 |
+| qiita.com | 2 | 1 | 0.5 |
+| quora.com | 5 | 5 | 1 |
+| reddit.com | 4 | 1 | 0.25 |
+| search.xfinity.com | 1 | 1 | 1 |
+| t.co | 1 |  |  |
+| web.facebook.com | 1 | 1 | 1 |
+| yahoo | 1 | 1 | 1 |
+| youtube.com | 162 | 121 | 747 |
+
+
+**Query 3: Revenue by traffic source by week, by month in June 2017**
+```sql
+SELECT
+    'Month' AS time_type
+    ,FORMAT_DATE('%Y%m', DATE(PARSE_DATE('%Y%m%d', date))) AS time
+    ,trafficSource.source AS source
+    ,SUM(product.productRevenue) / 1000000 AS revenue
+FROM `bigquery-public-data.google_analytics_sample.ga_sessions_201706*`
+,UNNEST(hits) AS hit
+,UNNEST(hit.product) AS product
+WHERE product.productRevenue IS NOT NULL
+GROUP BY time, source
+
+UNION ALL
+
+SELECT
+    'Week' AS time_type
+    ,FORMAT_DATE('%Y%W', DATE(PARSE_DATE('%Y%m%d', date))) AS time
+    ,trafficSource.source AS source
+    ,SUM(product.productRevenue) / 1000000 AS revenue
+FROM `bigquery-public-data.google_analytics_sample.ga_sessions_201706*`
+,UNNEST(hits) AS hit
+,UNNEST(hit.product) AS product
+WHERE product.productRevenue IS NOT NULL
+GROUP BY time, source
+
+ORDER BY time, revenue desc;
+```
+
+| time_type | time | source | revenue |
+| --- | --- | --- | --- |
+| Month | 201706 | (direct) | 97,333.619695 |
+| Month | 201706 | google | 18,757.17992 |
+| Month | 201706 | dfa | 8,862.229996 |
+| Month | 201706 | mail.google.com | 2,563.13 |
+| Month | 201706 | search.myway.com | 105.939.998 |
+| Month | 201706 | groups.google.com | 101.96 |
+| Month | 201706 | chat.google.com | 74.03 |
+| Month | 201706 | dealspotr.com | 72.95 |
+| Month | 201706 | mail.aol.com | 64.849.998 |
+| Month | 201706 | phandroid.com | 52.95 |
+| Month | 201706 | sites.google.com | 39.17 |
+| Month | 201706 | google.com | 23.99 |
+| Month | 201706 | yahoo | 20.39 |
+| Month | 201706 | youtube.com | 16.99 |
+| Month | 201706 | bing | 13.98 |
+| Month | 201706 | l.facebook.com | 12.48 |
+| Week | 201722 | (direct) | 6,888.899975 |
+| Week | 201722 | google | 2,119.38999 |
+| Week | 201722 | dfa | 1,670.649998 |
+| Week | 201722 | sites.google.com | 13.98 |
+| Week | 201723 | (direct) | 17,325.679919 |
+| Week | 201723 | dfa | 1,145.279998 |
+| Week | 201723 | google | 1,083.949999 |
+| Week | 201723 | search.myway.com | 105.939.998 |
+| Week | 201723 | chat.google.com | 74.03 |
+| Week | 201723 | youtube.com | 16.99 |
+| Week | 201724 | (direct) | 30,908.909927 |
+| Week | 201724 | google | 9,217.169976 |
+| Week | 201724 | mail.google.com | 2,486.86 |
+| Week | 201724 | dfa | 2,341.56 |
+| Week | 201724 | dealspotr.com | 72.95 |
+| Week | 201724 | bing | 13.98 |
+| Week | 201724 | l.facebook.com | 12.48 |
+| Week | 201725 | (direct) | 27,295.319924 |
+| Week | 201725 | google | 1,006.099991 |
+| Week | 201725 | mail.google.com | 76.27 |
+| Week | 201725 | mail.aol.com | 64.849.998 |
+| Week | 201725 | phandroid.com | 52.95 |
+| Week | 201725 | groups.google.com | 38.59 |
+| Week | 201725 | sites.google.com | 25.19 |
+| Week | 201725 | google.com | 23.99 |
+| Week | 201726 | (direct) | 14,914.80995 |
+| Week | 201726 | google | 5,330.569964 |
+| Week | 201726 | dfa | 3,704.74 |
+| Week | 201726 | groups.google.com | 63.37 |
+| Week | 201726 | yahoo | 20.39 |
+
+
+
+**Query 04: Average number of pageviews by purchaser type (purchasers vs non-purchasers) in June, July 2017**
+```sql
+with 
+purchaser_data as(
+  select
+      format_date("%Y%m",parse_date("%Y%m%d",date)) as month,
+      (sum(totals.pageviews)/count(distinct fullvisitorid)) as avg_pageviews_purchase,
+  from `bigquery-public-data.google_analytics_sample.ga_sessions_2017*`
+    ,unnest(hits) hits
+    ,unnest(product) product
+  where _table_suffix between '0601' and '0731'
+  and totals.transactions>=1
+  and product.productRevenue is not null
+  group by month
+),
+
+non_purchaser_data as(
+  select
+      format_date("%Y%m",parse_date("%Y%m%d",date)) as month,
+      sum(totals.pageviews)/count(distinct fullvisitorid) as avg_pageviews_non_purchase,
+  from `bigquery-public-data.google_analytics_sample.ga_sessions_2017*`
+      ,unnest(hits) hits
+    ,unnest(product) product
+  where _table_suffix between '0601' and '0731'
+  and totals.transactions is null
+  and product.productRevenue is null
+  group by month
+)
+
+select
+    pd.*,
+    avg_pageviews_non_purchase
+from purchaser_data pd
+full join non_purchaser_data using(month)
+order by pd.month;
+
+**Query 05: Average number of transactions per user that made a purchase in July 2017**
+select
+    format_date("%Y%m",parse_date("%Y%m%d",date)) as month,
+    sum(totals.transactions)/count(distinct fullvisitorid) as Avg_total_transactions_per_user
+from `bigquery-public-data.google_analytics_sample.ga_sessions_201707*`
+    ,unnest (hits) hits,
+    unnest(product) product
+where  totals.transactions>=1
+and product.productRevenue is not null
+group by month;
+```
+
+
+**Query 06: Average amount of money spent per session. Only include purchaser data in July 2017**
+```sql
+select
+    format_date("%Y%m",parse_date("%Y%m%d",date)) as month,
+    ((sum(product.productRevenue)/sum(totals.visits))/power(10,6)) as avg_revenue_by_user_per_visit
+from `bigquery-public-data.google_analytics_sample.ga_sessions_201707*`
+  ,unnest(hits) hits
+  ,unnest(product) product
+where product.productRevenue is not null
+  and totals.transactions>=1
+group by month;
+```
+
+
+
+**Query 07: Other products purchased by customers who purchased product "YouTube Men's Vintage Henley" in July 2017. Output should show product name and the quantity was ordered**
+```sql
+with buyer_list as(
+    SELECT
+        distinct fullVisitorId  
+    FROM `bigquery-public-data.google_analytics_sample.ga_sessions_201707*`
+    , UNNEST(hits) AS hits
+    , UNNEST(hits.product) as product
+    WHERE product.v2ProductName = "YouTube Men's Vintage Henley"
+    AND totals.transactions>=1
+    AND product.productRevenue is not null
+)
+
+SELECT
+  product.v2ProductName AS other_purchased_products,
+  SUM(product.productQuantity) AS quantity
+FROM `bigquery-public-data.google_analytics_sample.ga_sessions_201707*`
+, UNNEST(hits) AS hits
+, UNNEST(hits.product) as product
+JOIN buyer_list using(fullVisitorId)
+WHERE product.v2ProductName != "YouTube Men's Vintage Henley"
+ and product.productRevenue is not null
+GROUP BY other_purchased_products
+ORDER BY quantity DESC;
+```
+
+
+
+**Query 08: Calculate cohort map from product view to addtocart to purchase in Jan, Feb and March 2017. For example, 100% product view then 40% add_to_cart and 10% purchase**
+
+Add_to_cart_rate = number product add to cart/number product view. Purchase_rate = number product purchase/number product view. The output should be calculated in product level.
+```sql
+with
+product_view as(
+  SELECT
+    format_date("%Y%m", parse_date("%Y%m%d", date)) as month,
+    count(product.productSKU) as num_product_view
+  FROM `bigquery-public-data.google_analytics_sample.ga_sessions_*`
+  , UNNEST(hits) AS hits
+  , UNNEST(hits.product) as product
+  WHERE _TABLE_SUFFIX BETWEEN '20170101' AND '20170331'
+  AND hits.eCommerceAction.action_type = '2'
+  GROUP BY 1
+),
+
+add_to_cart as(
+  SELECT
+    format_date("%Y%m", parse_date("%Y%m%d", date)) as month,
+    count(product.productSKU) as num_addtocart
+  FROM `bigquery-public-data.google_analytics_sample.ga_sessions_*`
+  , UNNEST(hits) AS hits
+  , UNNEST(hits.product) as product
+  WHERE _TABLE_SUFFIX BETWEEN '20170101' AND '20170331'
+  AND hits.eCommerceAction.action_type = '3'
+  GROUP BY 1
+),
+
+purchase as(
+  SELECT
+    format_date("%Y%m", parse_date("%Y%m%d", date)) as month,
+    count(product.productSKU) as num_purchase
+  FROM `bigquery-public-data.google_analytics_sample.ga_sessions_*`
+  , UNNEST(hits) AS hits
+  , UNNEST(hits.product) as product
+  WHERE _TABLE_SUFFIX BETWEEN '20170101' AND '20170331'
+  AND hits.eCommerceAction.action_type = '6'
+  and product.productRevenue is not null  
+  group by 1
+)
+
+select
+    pv.*,
+    num_addtocart,
+    num_purchase,
+    round(num_addtocart*100/num_product_view,2) as add_to_cart_rate,
+    round(num_purchase*100/num_product_view,2) as purchase_rate
+from product_view pv
+left join add_to_cart a on pv.month = a.month
+left join purchase p on pv.month = p.month
+order by pv.month;
+```
+
