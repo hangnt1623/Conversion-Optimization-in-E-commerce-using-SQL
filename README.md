@@ -42,7 +42,7 @@ This project is for *business analysts, marketing teams, product managers, and d
 
 There is a table are in the dataset.  
 
-#### 2️⃣ Table Schema & Data Snapshot  
+#### 2️⃣ Table Schema 
 
 **👉🏻 Table schema**
 
