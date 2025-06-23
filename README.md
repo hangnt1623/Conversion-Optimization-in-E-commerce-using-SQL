@@ -34,7 +34,7 @@ This project is for *business analysts, marketing teams, product managers, and d
 ## 📂 Dataset Description & Data Structure  
 
 ### 📌 Data Source  
-- Source: the dataset is obtained from Big Query
+- Source: the dataset is obtained from Google Analytics public dataset 
 
 ### 📊 Data Structure & Relationships  
 
