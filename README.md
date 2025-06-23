@@ -251,8 +251,16 @@ select
 from purchaser_data pd
 full join non_purchaser_data using(month)
 order by pd.month;
+```
+| month | avg_pageviews_purchase | avg_pageviews_non_purchase |
+| --- | --- | --- |
+| 201706 | 940.205.011.389.522 | 316.865.588.463.417 |
+| 201707 | 12.423.755.186.722 | 33.405.655.979.568 |
+
+
 
 **Query 05: Average number of transactions per user that made a purchase in July 2017**
+```sql
 select
     format_date("%Y%m",parse_date("%Y%m%d",date)) as month,
     sum(totals.transactions)/count(distinct fullvisitorid) as Avg_total_transactions_per_user
@@ -263,7 +271,9 @@ where  totals.transactions>=1
 and product.productRevenue is not null
 group by month;
 ```
-
+| month | Avg_total_transactions_per_user |
+| --- | --- |
+| 201707 | 416.390.041.493.776 |
 
 **Query 06: Average amount of money spent per session. Only include purchaser data in July 2017**
 ```sql
@@ -277,7 +287,9 @@ where product.productRevenue is not null
   and totals.transactions>=1
 group by month;
 ```
-
+| month | avg_revenue_by_user_per_visit |
+| --- | --- |
+| 201707 | 438.565.983.480.512 |
 
 
 **Query 07: Other products purchased by customers who purchased product "YouTube Men's Vintage Henley" in July 2017. Output should show product name and the quantity was ordered**
@@ -305,6 +317,58 @@ WHERE product.v2ProductName != "YouTube Men's Vintage Henley"
 GROUP BY other_purchased_products
 ORDER BY quantity DESC;
 ```
+| other_purchased_products | quantity |
+| --- | --- |
+| Google Sunglasses | 20 |
+| Google Women's Vintage Hero Tee Black | 7 |
+| SPF-15 Slim & Slender Lip Balm | 6 |
+| Google Women's Short Sleeve Hero Tee Red Heather | 4 |
+| YouTube Men's Fleece Hoodie Black | 3 |
+| Google Men's Short Sleeve Badge Tee Charcoal | 3 |
+| 22 oz YouTube Bottle Infuser | 2 |
+| Android Men's Vintage Henley | 2 |
+| Recycled Mouse Pad | 2 |
+| Red Shine 15 oz Mug | 2 |
+| Google Doodle Decal | 2 |
+| YouTube Twill Cap | 2 |
+| Google Men's Short Sleeve Hero Tee Charcoal | 2 |
+| Android Women's Fleece Hoodie | 2 |
+| Android Wool Heather Cap Heather/Black | 2 |
+| Crunch Noise Dog Toy | 2 |
+| Google Men's 100% Cotton Short Sleeve Hero Tee Red | 1 |
+| Android Men's Vintage Tank | 1 |
+| YouTube Women's Short Sleeve Hero Tee Charcoal | 1 |
+| Google Men's Performance Full Zip Jacket Black | 1 |
+| 26 oz Double Wall Insulated Bottle | 1 |
+| Android Men's Short Sleeve Hero Tee White | 1 |
+| Android Men's Pep Rally Short Sleeve Tee Navy | 1 |
+| YouTube Men's Short Sleeve Hero Tee Black | 1 |
+| Google Slim Utility Travel Bag | 1 |
+| Google Men's Pullover Hoodie Grey | 1 |
+| YouTube Men's Short Sleeve Hero Tee White | 1 |
+| Google Men's  Zip Hoodie | 1 |
+| Google Men's Vintage Badge Tee White | 1 |
+| Google Men's Long & Lean Tee Charcoal | 1 |
+| YouTube Custom Decals | 1 |
+| Four Color Retractable Pen | 1 |
+| Google Laptop and Cell Phone Stickers | 1 |
+| Google Men's Vintage Badge Tee Black | 1 |
+| Google Men's Long Sleeve Raglan Ocean Blue | 1 |
+| Google Men's Bike Short Sleeve Tee Charcoal | 1 |
+| Google 5-Panel Cap | 1 |
+| Google Toddler Short Sleeve T-shirt Grey | 1 |
+| Android Sticker Sheet Ultra Removable | 1 |
+| Google Twill Cap | 1 |
+| Google Men's Long & Lean Tee Grey | 1 |
+| YouTube Men's Long & Lean Tee Charcoal | 1 |
+| Google Women's Long Sleeve Tee Lavender | 1 |
+| YouTube Hard Cover Journal | 1 |
+| Android BTTF Moonshot Graphic Tee | 1 |
+| Google Men's Airflow 1/4 Zip Pullover Black | 1 |
+| Android Men's Short Sleeve Hero Tee Heather | 1 |
+| YouTube Women's Short Sleeve Tri-blend Badge Tee Charcoal | 1 |
+| Google Men's Performance 1/4 Zip Pullover Heather/Black | 1 |
+| 8 pc Android Sticker Sheet | 1 |
 
 
 
@@ -361,4 +425,9 @@ left join add_to_cart a on pv.month = a.month
 left join purchase p on pv.month = p.month
 order by pv.month;
 ```
+| month | num_product_view | num_addtocart | num_purchase | add_to_cart_rate | purchase_rate |
+| --- | --- | --- | --- | --- | --- |
+| 201701 | 25787 | 7342 | 2143 | 28.47 | 8.31 |
+| 201702 | 21489 | 7360 | 2060 | 34.25 | 9.59 |
+| 201703 | 23549 | 8782 | 2977 | 37.29 | 12.64 |
 
