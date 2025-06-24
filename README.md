@@ -16,18 +16,21 @@ Use SQL for exploring Ecommerce Dataset
 
 ## 📌 Background & Overview  
 
+### Background
+
+The company operates in the E-commerce sector, with the goal of increasing revenue and optimizing marketing costs. Currently, the company is facing challenges in understanding the effectiveness of traffic channels, user behavior on the website and points in the purchase journey. Therefore, in-depth analysis is needed to support decision making to improve conversion rates and increase order value.
+
 ### Objective:
 ### 📖 What is this project about? What Business Question will it solve?
 
 This project includes an eCommerce dataset that I explore by using SQL on Google BigQuery. The data originates from the Google Analytics public dataset and represents information from an eCommerce website.
 
-The main business question this project aims to answer is: How does user behavior and traffic source impact key eCommerce metrics such as visits, pageviews, transactions, bounce rate, revenue, and product purchase patterns over time?
+This project focuses on analyzing the end-to-end digital customer journey—from how users arrive at the website, interact with pages and products, to how they convert into buyers and what they purchase. It leverages web analytics and transaction data to uncover patterns in user behavior, traffic performance, and conversion efficiency."
 
-
+The main business question this project aims to answer is: "How effectively are we converting website traffic into revenue, and where in the customer journey should we focus our efforts to improve engagement, retention, and sales performance?
 
 ### 👤 Who is this project for?  
-This project is for *business analysts, marketing teams, product managers, and data analysts* who need actionable insights into customer behavior, traffic sources, and sales performance to drive smarter business decisions and optimize the eCommerce experience.
-
+This project is designed for *business leaders, marketing managers, and product teams* who need actionable insights into customer behavior, marketing channel performance, and conversion efficiency to make data-driven decisions that improve sales and optimize marketing spend.
 
 ---
 
@@ -71,7 +74,6 @@ There is a table are in the dataset.
 
 2️⃣ Explore specific dataset through some requirements
 
-
 ---
 
 ## 🔎 Exploring dataset & insights  
@@ -91,7 +93,7 @@ WHERE _table_suffix between '0101' AND '0331'
 GROUP BY month_trans
 ORDER BY month_trans ASC
 ```
-**Result**
+*Result*
 | month_trans | total_visits | total_pageviews | total_transactions |
 | --- | --- | --- | --- |
 | 201701 | 64694 | 257708 | 713 |
@@ -113,7 +115,7 @@ FROM bigquery-public-data.google_analytics_sample.ga_sessions_20170701
 GROUP BY trafficSource.source
 ORDER BY trafficSource.source ASC
 ```
-**Result**
+*Result*
 | source | total_visits | num_bounce | bounce_rates |
 | --- | --- | --- | --- |
 | (direct) | 335 | 181 | 0.54 |
@@ -173,7 +175,7 @@ GROUP BY time, source
 
 ORDER BY time, revenue desc;
 ```
-**Result**
+*Result*
 | time_type | time | source | revenue |
 | --- | --- | --- | --- |
 | Month | 201706 | (direct) | 97,333.619695 |
@@ -263,7 +265,7 @@ from purchaser_data pd
 full join non_purchaser_data using(month)
 order by pd.month;
 ```
-**Result**
+*Result*
 | month | avg_pageviews_purchase | avg_pageviews_non_purchase |
 | --- | --- | --- |
 | 201706 | 940.205.011.389.522 | 316.865.588.463.417 |
@@ -286,7 +288,7 @@ where  totals.transactions>=1
 and product.productRevenue is not null
 group by month;
 ```
-**Result**
+*Result*
 | month | Avg_total_transactions_per_user |
 | --- | --- |
 | 201707 | 416.390.041.493.776 |
@@ -308,7 +310,7 @@ where product.productRevenue is not null
   and totals.transactions>=1
 group by month;
 ```
-**Result**
+*Result*
 | month | avg_revenue_by_user_per_visit |
 | --- | --- |
 | 201707 | 438.565.983.480.512 |
@@ -342,7 +344,7 @@ WHERE product.v2ProductName != "YouTube Men's Vintage Henley"
 GROUP BY other_purchased_products
 ORDER BY quantity DESC;
 ```
-**Result**
+*Result*
 | other_purchased_products | quantity |
 | --- | --- |
 | Google Sunglasses | 20 |
@@ -452,7 +454,7 @@ left join add_to_cart a on pv.month = a.month
 left join purchase p on pv.month = p.month
 order by pv.month;
 ```
-**Result**
+*Result*
 | month | num_product_view | num_addtocart | num_purchase | add_to_cart_rate | purchase_rate |
 | --- | --- | --- | --- | --- | --- |
 | 201701 | 25787 | 7342 | 2143 | 28.47 | 8.31 |
