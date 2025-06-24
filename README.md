@@ -42,9 +42,7 @@ This project is for *business analysts, marketing teams, product managers, and d
 
 There is a table are in the dataset.  
 
-#### 2️⃣ Table Schema 
-
-**👉🏻 Table schema**
+#### 2️⃣ Table Schema
 
 | Field Name | Data Type | Description |
 | --- | --- | --- |
@@ -66,8 +64,6 @@ There is a table are in the dataset.
 | hits.product.productSKU | STRING | Product SKU. |
 | hits.product.v2ProductName | STRING | Product Name. |
 
-Table Snapshot (10 first line)
-
 
 ## ⚒️ Main Process
 
@@ -81,6 +77,10 @@ Table Snapshot (10 first line)
 ## 🔎 Exploring dataset & insights  
 
 **Query 01: Calculate total visit, pageview, transaction for Jan, Feb and March 2017 (order by month)**
+
+*Purpose*: To measure user interest and behavior in the first three months of the year, thereby determining traffic trends, engagement levels and shopping needs over time
+-> Help businesses grasp the overall picture of performance at the beginning of the year, see when traffic and transactions are highest, as a basis for assessing seasonal fluctuations
+
 ```sql
 SELECT  FORMAT_DATE('%Y%m', PARSE_DATE('%Y%m%d', date)) AS month_trans
         ,SUM(totals.visits) AS total_visits
@@ -91,6 +91,7 @@ WHERE _table_suffix between '0101' AND '0331'
 GROUP BY month_trans
 ORDER BY month_trans ASC
 ```
+**Result**
 | month_trans | total_visits | total_pageviews | total_transactions |
 | --- | --- | --- | --- |
 | 201701 | 64694 | 257708 | 713 |
@@ -100,6 +101,9 @@ ORDER BY month_trans ASC
 
 
 **Query 02: Bounce rate per traffic source in July 2017 (Bounce_rate = num_bounce/total_visit) (order by total_visit DESC)**
+
+*Purpose*: Identify low-quality traffic sources (high bounce rate), then develop a strategy to optimize ad spend or improve target content.
+
 ```sql
 SELECT  trafficSource.source
         ,SUM(totals.visits) AS total_visits
@@ -109,6 +113,7 @@ FROM bigquery-public-data.google_analytics_sample.ga_sessions_20170701
 GROUP BY trafficSource.source
 ORDER BY trafficSource.source ASC
 ```
+**Result**
 | source | total_visits | num_bounce | bounce_rates |
 | --- | --- | --- | --- |
 | (direct) | 335 | 181 | 0.54 |
@@ -137,6 +142,10 @@ ORDER BY trafficSource.source ASC
 
 
 **Query 3: Revenue by traffic source by week, by month in June 2017**
+
+*Purpose*: Track revenue generated from each traffic source, broken down by time (week/month), to understand which channels actually deliver financial value
+-> allows businesses to evaluate financial performance by marketing channel and track short-term revenue fluctuations, serving campaign analysis or optimizing advertising spending
+
 ```sql
 SELECT
     'Month' AS time_type
@@ -164,7 +173,7 @@ GROUP BY time, source
 
 ORDER BY time, revenue desc;
 ```
-
+**Result**
 | time_type | time | source | revenue |
 | --- | --- | --- | --- |
 | Month | 201706 | (direct) | 97,333.619695 |
@@ -217,6 +226,8 @@ ORDER BY time, revenue desc;
 
 
 **Query 04: Average number of pageviews by purchaser type (purchasers vs non-purchasers) in June, July 2017**
+
+*Purpose*: Understand the differences in interest levels and product discovery behavior of customer groups, thereby helping to identify interaction characteristics related to purchase likelihood.
 ```sql
 with 
 purchaser_data as(
@@ -252,6 +263,7 @@ from purchaser_data pd
 full join non_purchaser_data using(month)
 order by pd.month;
 ```
+**Result**
 | month | avg_pageviews_purchase | avg_pageviews_non_purchase |
 | --- | --- | --- |
 | 201706 | 940.205.011.389.522 | 316.865.588.463.417 |
@@ -260,6 +272,9 @@ order by pd.month;
 
 
 **Query 05: Average number of transactions per user that made a purchase in July 2017**
+
+*Purpose*: Measure customer loyalty and repeat purchase behavior. It is the basis for designing customer retention, upsell, and loyalty programs
+
 ```sql
 select
     format_date("%Y%m",parse_date("%Y%m%d",date)) as month,
@@ -271,11 +286,17 @@ where  totals.transactions>=1
 and product.productRevenue is not null
 group by month;
 ```
+**Result**
 | month | Avg_total_transactions_per_user |
 | --- | --- |
 | 201707 | 416.390.041.493.776 |
 
 **Query 06: Average amount of money spent per session. Only include purchaser data in July 2017**
+
+*Purpose*: 
+- Analyze the value of each converted visit, support ROI calculation for campaigns
+- Help set benchmark AOV per session, thereby setting target price for advertising campaigns
+
 ```sql
 select
     format_date("%Y%m",parse_date("%Y%m%d",date)) as month,
@@ -287,12 +308,16 @@ where product.productRevenue is not null
   and totals.transactions>=1
 group by month;
 ```
+**Result**
 | month | avg_revenue_by_user_per_visit |
 | --- | --- |
 | 201707 | 438.565.983.480.512 |
 
 
 **Query 07: Other products purchased by customers who purchased product "YouTube Men's Vintage Henley" in July 2017. Output should show product name and the quantity was ordered**
+
+*Purpose*: Understand cross-sell behavior, support smart product recommendations (recommendation engine).
+
 ```sql
 with buyer_list as(
     SELECT
@@ -317,6 +342,7 @@ WHERE product.v2ProductName != "YouTube Men's Vintage Henley"
 GROUP BY other_purchased_products
 ORDER BY quantity DESC;
 ```
+**Result**
 | other_purchased_products | quantity |
 | --- | --- |
 | Google Sunglasses | 20 |
@@ -374,7 +400,8 @@ ORDER BY quantity DESC;
 
 **Query 08: Calculate cohort map from product view to addtocart to purchase in Jan, Feb and March 2017. For example, 100% product view then 40% add_to_cart and 10% purchase**
 
-Add_to_cart_rate = number product add to cart/number product view. Purchase_rate = number product purchase/number product view. The output should be calculated in product level.
+*Purpose*: Evaluate drop-off rates at each step -> understand where customers drop in the conversion funnel, thereby evaluating the effectiveness of each step and prioritizing improving the experience at points with the highest drop-off rates.
+
 ```sql
 with
 product_view as(
@@ -425,6 +452,7 @@ left join add_to_cart a on pv.month = a.month
 left join purchase p on pv.month = p.month
 order by pv.month;
 ```
+**Result**
 | month | num_product_view | num_addtocart | num_purchase | add_to_cart_rate | purchase_rate |
 | --- | --- | --- | --- | --- | --- |
 | 201701 | 25787 | 7342 | 2143 | 28.47 | 8.31 |
