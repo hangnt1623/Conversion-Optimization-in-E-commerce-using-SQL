@@ -1,4 +1,4 @@
-# Ecommerce Project
+# [SQL] Ecommerce - Conversion Optimization
 Use SQL for exploring Ecommerce Dataset
 ![image](https://github.com/user-attachments/assets/dc267b17-4eb9-4eb4-83bf-b3d329bbe09d)
 
@@ -152,7 +152,7 @@ ORDER BY trafficSource.source ASC
   + Reassess ad spend effectiveness on channels with high bounce rates and low conversions
   + A/B test ad messaging and landing page experiences to improve initial user engagement
 
-**Query 3: Revenue by traffic source by week, by month in June 2017**
+**Query 03: Revenue by traffic source by week, by month in June 2017**
 
 *Purpose*: Track revenue generated from each traffic source, broken down by time (week/month), to understand which channels actually deliver financial value
 -> allows businesses to evaluate financial performance by marketing channel and track short-term revenue fluctuations, serving campaign analysis or optimizing advertising spending
