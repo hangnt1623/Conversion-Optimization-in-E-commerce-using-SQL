@@ -545,9 +545,7 @@ order by pv.month;
 * Enhance funnel steps, especially add-to-cart and checkout.
 * Allocate budget to high-performing channels and monitor weekly fluctuations.
 
-**Summary**
-
-Deep understanding of traffic sources, customer behavior, and funnel drop-off points is critical to boosting revenue and optimizing marketing spend.
+> **Deep understanding of traffic sources, customer behavior, and funnel drop-off points is critical to boosting revenue and optimizing marketing spend.**
 
 
 
