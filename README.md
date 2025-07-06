@@ -1,4 +1,4 @@
-# [SQL] Ecommerce - Conversion Optimization
+# Conversion Optimization in E-commerce using SQL
 Use SQL for exploring Ecommerce Dataset
 ![image](https://github.com/user-attachments/assets/dc267b17-4eb9-4eb4-83bf-b3d329bbe09d)
 
@@ -18,18 +18,24 @@ Use SQL for exploring Ecommerce Dataset
 
 ### Background
 
-The company operates in the E-commerce sector, with the goal of increasing revenue and optimizing marketing costs. Currently, the company is facing challenges in understanding the effectiveness of traffic channels, user behavior on the website and points in the purchase journey. Therefore, in-depth analysis is needed to support decision making to improve conversion rates and increase order value.
+The company operates in the **E-commerce sector**, with the goal of **increasing revenue** and **optimizing marketing costs**.  
+Currently, the company is facing challenges in understanding the **effectiveness of traffic channels**, **user behavior on the website**, and **points in the purchase journey**.  
+Therefore, **in-depth analysis** is needed to support **decision making** to **improve conversion rates** and **increase order value**.
 
 ### Objective:
 ### 📖 What is this project about? What Business Question will it solve?
 
-This project focuses on analyzing the end-to-end digital customer journey—from how users arrive at the website, interact with pages and products, to how they convert into buyers and what they purchase. It leverages web analytics and transaction data to uncover patterns in user behavior, traffic performance, and conversion efficiency."
+This project focuses on analyzing the **end-to-end digital customer journey** — from how users **arrive at the website**, **interact with pages and products**, to how they **convert into buyers** and what they purchase.  
+It leverages **web analytics** and **transaction data** to uncover patterns in **user behavior**, **traffic performance**, and **conversion efficiency**.
 
-The main business question this project aims to answer is: "How effectively are we converting website traffic into revenue, and where in the customer journey should we focus our efforts to improve engagement, retention, and sales performance?
+The main business question this project aims to answer is:  
+**"How effectively are we converting website traffic into revenue, and where in the customer journey should we focus our efforts to improve engagement, retention, and sales performance?"**
+
 
 ### 👤 Who is this project for?  
-This project is designed for *business leaders, marketing managers, and product teams* who need actionable insights into customer behavior, marketing channel performance, and conversion efficiency to make data-driven decisions that improve sales and optimize marketing spend.
-
+- Business Leaders
+- Marketing Managers
+- Product Teams
 ---
 
 ## 📂 Dataset Description & Data Structure  
@@ -44,7 +50,10 @@ This project is designed for *business leaders, marketing managers, and product 
 There is a table are in the dataset.  
 
 #### 2️⃣ Table Schema
-<summary>
+
+<details>
+<summary>📊 Click to expand Table Schema </summary>
+
 | Field Name | Data Type | Description |
 | --- | --- | --- |
 | fullVisitorId | STRING | The unique visitor ID. |
@@ -65,12 +74,8 @@ There is a table are in the dataset.
 | hits.product.productSKU | STRING | Product SKU. |
 | hits.product.v2ProductName | STRING | Product Name. |
 
+</details>
 
-## ⚒️ Main Process
-
-1️⃣ Understand dataset 
-
-2️⃣ Explore specific dataset through some requirements
 
 ---
 
@@ -99,13 +104,16 @@ ORDER BY month_trans ASC
 | 201703 | 69931 | 259522 | 993 |
 
 *Findings & Recommendations*
-- Findings: March saw a significant increase in visits and transactions compared to January and February, indicating improved conversions and user experience. February saw lower traffic and engagement, possibly due to seasonality or ineffective marketing campaigns.
+- Findings:
+  + March 2017 shows peak performance with the highest visits (69,931), pageviews (259,522), and transactions (993), indicating stronger shopping intent and conversion during this month.
+  + February 2017 had fewer visits and pageviews than January, yet generated more transactions, suggesting improved conversion efficiency despite shorter time (28 days).
+  + Traffic volume alone doesn’t guarantee sales — as seen in January (more visits than February but fewer transactions), highlighting the importance of engagement quality over quantity.
 - Recommendations:
-  + Investigate the specific reasons for growth in March to apply to other months.
-  + Boost marketing activities in February, focusing especially on improving content and user experience.
-  + Plan advertising budget allocation according to monthly traffic trends.
+  + Double down on campaigns in March to capitalize on naturally high user intent and traffic.
+  + Analyze February’s conversion strategies to replicate successful elements (e.g. UX, offers) across other months.
+  + Focus on visit quality by optimizing landing pages and user journeys — not just boosting raw traffic.
 
-**Query 02: Bounce rate per traffic source in July 2017 (Bounce_rate = num_bounce/total_visit) (order by total_visit DESC)**
+**Query 02: Bounce rate per traffic source in July 2017 (Bounce_rate = num_bounce/total_visit)**
 
 *Purpose*: Identify low-quality traffic sources (high bounce rate), then develop a strategy to optimize ad spend or improve target content.
 
@@ -116,41 +124,46 @@ SELECT  trafficSource.source
         ,ROUND(SUM(totals.bounces)/SUM(totals.visits),3) AS bounce_rates
 FROM bigquery-public-data.google_analytics_sample.ga_sessions_20170701
 GROUP BY trafficSource.source
-ORDER BY trafficSource.source ASC
+ORDER BY bounce_rates DESC
 ```
 *Result*
+
 | source | total_visits | num_bounce | bounce_rates |
 | --- | --- | --- | --- |
-| (direct) | 335 | 181 | 0.54 |
-| Partners | 17 | 11 | 0.647 |
-| analytics.google.com | 19 | 13 | 0.684 |
-| ask | 2 | 2 | 1 |
-| baidu | 8 | 6 | 0.75 |
-| bing | 2 | 1 | 0.5 |
-| blog.golang.org | 2 | 1 | 0.5 |
-| dfa | 1 |  |  |
-| docs.google.com | 1 | 1 | 1 |
-| facebook.com | 46 | 22 | 0.478 |
-| google | 1172 | 663 | 0.566 |
-| google.com | 7 | 2 | 0.286 |
-| l.facebook.com | 3 | 3 | 1 |
-| m.baidu.com | 1 | 1 | 1 |
-| m.facebook.com | 255 | 152 | 0.596 |
-| qiita.com | 2 | 1 | 0.5 |
-| quora.com | 5 | 5 | 1 |
-| reddit.com | 4 | 1 | 0.25 |
-| search.xfinity.com | 1 | 1 | 1 |
-| t.co | 1 |  |  |
-| web.facebook.com | 1 | 1 | 1 |
 | yahoo | 1 | 1 | 1 |
-| youtube.com | 162 | 121 | 0.747 |
+| m.baidu.com | 1 | 1 | 1 |
+| quora.com | 5 | 5 | 1 |
+| l.facebook.com | 3 | 3 | 1 |
+| ask | 2 | 2 | 1 |
+| docs.google.com | 1 | 1 | 1 |
+| web.facebook.com | 1 | 1 | 1 |
+| search.xfinity.com | 1 | 1 | 1 |
+| baidu | 8 | 6 | 0.75 |
+| youtube.com | 162 | 121 | 747 |
+| analytics.google.com | 19 | 13 | 684 |
+| Partners | 17 | 11 | 647 |
+| m.facebook.com | 255 | 152 | 596 |
+| google | 1172 | 663 | 566 |
+| (direct) | 335 | 181 | 0.54 |
+| bing | 2 | 1 | 0.5 |
+| qiita.com | 2 | 1 | 0.5 |
+| blog.golang.org | 2 | 1 | 0.5 |
+| facebook.com | 46 | 22 | 478 |
+| google.com | 7 | 2 | 286 |
+| reddit.com | 4 | 1 | 0.25 |
+| dfa | 1 |  |  |
+| t.co | 1 |  |  |
+
 
 *Findings & Recommendations*
-- Findings: Some traffic sources have bounce rates above 60%, especially YouTube (0.747), analytics.google.com (0.684), Partners (0.647), and m.facebook.com (0.596). Even major sources like Google Search have relatively high bounce rates (0.566), indicating that many visitors do not continue to interact after landing on the page.
+- Findings:
+  + Several traffic sources like yahoo, quora.com, l.facebook.com, and others have a 100% bounce rate but very low visit counts, indicating minimal engagement from these niche or referral channels in July 2017.
+  + Major sources such as google (56.6%), m.facebook.com (59.6%), and youtube.com (74.7%) show relatively high bounce rates despite high traffic volumes, suggesting a significant portion of visits are low-quality or non-engaging.
+  + Direct traffic and smaller sources like bing (50%) and reddit.com (25%) show lower bounce rates, implying better visitor engagement from these channels during this period.
 - Recommendations:
-  + Review and optimize landing page content from high bounce rate sources, especially YouTube and social media
-  + Reassess ad spend effectiveness on channels with high bounce rates and low conversions
-  + A/B test ad messaging and landing page experiences to improve initial user engagement
+  + Refine ad targeting and content for high-volume but high-bounce sources (Google, mobile Facebook, YouTube) to improve user relevance and reduce bounce.
+  + Consider reallocating budget away from very low-volume, 100% bounce sources unless strategic value justifies continued spend.
+  + Enhance landing page experience and calls to action for traffic from major platforms to better capture and retain visitor interest in July 2017.
 
 **Query 03: Revenue by traffic source by week, by month in June 2017**
 
@@ -185,17 +198,19 @@ GROUP BY time, source
 ORDER BY time, revenue desc;
 ```
 *Result*
+- Month
+
 | time_type | time | source | revenue |
 | --- | --- | --- | --- |
 | Month | 201706 | (direct) | 97,333.619695 |
 | Month | 201706 | google | 18,757.17992 |
 | Month | 201706 | dfa | 8,862.229996 |
 | Month | 201706 | mail.google.com | 2,563.13 |
-| Month | 201706 | search.myway.com | 105.939998 |
+| Month | 201706 | search.myway.com | 105.939.998 |
 | Month | 201706 | groups.google.com | 101.96 |
 | Month | 201706 | chat.google.com | 74.03 |
 | Month | 201706 | dealspotr.com | 72.95 |
-| Month | 201706 | mail.aol.com | 64.849998 |
+| Month | 201706 | mail.aol.com | 64.849.998 |
 | Month | 201706 | phandroid.com | 52.95 |
 | Month | 201706 | sites.google.com | 39.17 |
 | Month | 201706 | google.com | 23.99 |
@@ -203,6 +218,11 @@ ORDER BY time, revenue desc;
 | Month | 201706 | youtube.com | 16.99 |
 | Month | 201706 | bing | 13.98 |
 | Month | 201706 | l.facebook.com | 12.48 |
+
+- Week
+
+| time_type | time | source | revenue |
+| --- | --- | --- | --- |
 | Week | 201722 | (direct) | 6,888.899975 |
 | Week | 201722 | google | 2,119.38999 |
 | Week | 201722 | dfa | 1,670.649998 |
@@ -210,7 +230,7 @@ ORDER BY time, revenue desc;
 | Week | 201723 | (direct) | 17,325.679919 |
 | Week | 201723 | dfa | 1,145.279998 |
 | Week | 201723 | google | 1,083.949999 |
-| Week | 201723 | search.myway.com | 105.939998 |
+| Week | 201723 | search.myway.com | 105.939.998 |
 | Week | 201723 | chat.google.com | 74.03 |
 | Week | 201723 | youtube.com | 16.99 |
 | Week | 201724 | (direct) | 30,908.909927 |
@@ -223,7 +243,7 @@ ORDER BY time, revenue desc;
 | Week | 201725 | (direct) | 27,295.319924 |
 | Week | 201725 | google | 1,006.099991 |
 | Week | 201725 | mail.google.com | 76.27 |
-| Week | 201725 | mail.aol.com | 64.849998 |
+| Week | 201725 | mail.aol.com | 64.849.998 |
 | Week | 201725 | phandroid.com | 52.95 |
 | Week | 201725 | groups.google.com | 38.59 |
 | Week | 201725 | sites.google.com | 25.19 |
@@ -234,15 +254,16 @@ ORDER BY time, revenue desc;
 | Week | 201726 | groups.google.com | 63.37 |
 | Week | 201726 | yahoo | 20.39 |
 
+
 *Findings & Recommendations*
 - Findings
-  + Direct traffic drives the highest revenue, followed by Google
-  + Weekly revenue fluctuates, showing short-term campaign impact
-  + Other sources contribute minimally.
+  + In June 2017, direct traffic dominated revenue, contributing nearly $97K monthly and consistently leading each week, highlighting strong brand loyalty or repeat visitors.
+  + Google and DFA are the next top contributors, with Google showing fluctuations week-to-week but maintaining solid overall revenue, indicating effective but variable campaign performance.
+  + Smaller sources like mail.google.com, search.myway.com, and groups.google.com generate minimal revenue, suggesting limited impact despite some presence.
 - Recommendations
-  + Focus marketing spend on direct and Google channels
-  + Monitor and optimize weaker sources or reallocate budget
-  + Use weekly data to quickly adjust campaigns for better returns
+  + Maintain and nurture direct traffic channels as a reliable revenue base through loyalty programs and personalized experiences.
+  + Optimize Google campaigns by analyzing weekly fluctuations to allocate budget dynamically toward high-performing periods.
+  + Evaluate minor traffic sources’ ROI and consider consolidating spend toward channels with stronger, consistent revenue in June 2017.
 
 
 **Query 04: Average number of pageviews by purchaser type (purchasers vs non-purchasers) in June, July 2017**
@@ -291,13 +312,13 @@ order by pd.month;
 
 *Findings & Recommendations*
 - Findings
-  + Non-purchasers consistently have higher average pageviews than purchasers in June and July
-  + Purchasers’ pageviews increased from 94 to 124, showing growing engagement
-  + High pageviews among non-purchasers indicate strong interest but low conversion
+  + In June and July 2017, non-purchasers consistently viewed 2.5 to 3 times more pages on average than purchasers, indicating higher browsing but lower conversion.
+  + Purchasers have lower average pageviews, suggesting they find what they need more quickly or have more targeted interactions.
+  + The gap widened slightly in July, possibly reflecting increased casual browsing or ineffective site navigation for non-purchasers.
 - Recommendations
-  + Improve user experience and conversion support for non-purchasers to boost purchases
-  + Leverage increased engagement from purchasers for retention and upsell programs
-  + Analyze non-purchaser behavior to identify and fix conversion barriers
+  + Streamline product discovery by improving site search and filtering to reduce excessive browsing for non-purchasers.
+  + Deploy personalized retargeting campaigns aimed at non-purchasers who browse extensively but don’t buy.
+  + Test and optimize key landing pages and navigation flows to remove friction points identified from non-purchaser behavior in June–July 2017.
 
 
 **Query 05: Average number of transactions per user that made a purchase in July 2017**
@@ -386,6 +407,8 @@ GROUP BY other_purchased_products
 ORDER BY quantity DESC;
 ```
 *Result*
+- Top 6 highest other products purchased by customers who purchased product "YouTube Men's Vintage Henley" in July 2017
+  
 | other_purchased_products | quantity |
 | --- | --- |
 | Google Sunglasses | 20 |
@@ -394,55 +417,17 @@ ORDER BY quantity DESC;
 | Google Women's Short Sleeve Hero Tee Red Heather | 4 |
 | YouTube Men's Fleece Hoodie Black | 3 |
 | Google Men's Short Sleeve Badge Tee Charcoal | 3 |
-| 22 oz YouTube Bottle Infuser | 2 |
-| Android Men's Vintage Henley | 2 |
-| Recycled Mouse Pad | 2 |
-| Red Shine 15 oz Mug | 2 |
-| Google Doodle Decal | 2 |
-| YouTube Twill Cap | 2 |
-| Google Men's Short Sleeve Hero Tee Charcoal | 2 |
-| Android Women's Fleece Hoodie | 2 |
-| Android Wool Heather Cap Heather/Black | 2 |
-| Crunch Noise Dog Toy | 2 |
-| Google Men's 100% Cotton Short Sleeve Hero Tee Red | 1 |
-| Android Men's Vintage Tank | 1 |
-| YouTube Women's Short Sleeve Hero Tee Charcoal | 1 |
-| Google Men's Performance Full Zip Jacket Black | 1 |
-| 26 oz Double Wall Insulated Bottle | 1 |
-| Android Men's Short Sleeve Hero Tee White | 1 |
-| Android Men's Pep Rally Short Sleeve Tee Navy | 1 |
-| YouTube Men's Short Sleeve Hero Tee Black | 1 |
-| Google Slim Utility Travel Bag | 1 |
-| Google Men's Pullover Hoodie Grey | 1 |
-| YouTube Men's Short Sleeve Hero Tee White | 1 |
-| Google Men's  Zip Hoodie | 1 |
-| Google Men's Vintage Badge Tee White | 1 |
-| Google Men's Long & Lean Tee Charcoal | 1 |
-| YouTube Custom Decals | 1 |
-| Four Color Retractable Pen | 1 |
-| Google Laptop and Cell Phone Stickers | 1 |
-| Google Men's Vintage Badge Tee Black | 1 |
-| Google Men's Long Sleeve Raglan Ocean Blue | 1 |
-| Google Men's Bike Short Sleeve Tee Charcoal | 1 |
-| Google 5-Panel Cap | 1 |
-| Google Toddler Short Sleeve T-shirt Grey | 1 |
-| Android Sticker Sheet Ultra Removable | 1 |
-| Google Twill Cap | 1 |
-| Google Men's Long & Lean Tee Grey | 1 |
-| YouTube Men's Long & Lean Tee Charcoal | 1 |
-| Google Women's Long Sleeve Tee Lavender | 1 |
-| YouTube Hard Cover Journal | 1 |
-| Android BTTF Moonshot Graphic Tee | 1 |
-| Google Men's Airflow 1/4 Zip Pullover Black | 1 |
-| Android Men's Short Sleeve Hero Tee Heather | 1 |
-| YouTube Women's Short Sleeve Tri-blend Badge Tee Charcoal | 1 |
-| Google Men's Performance 1/4 Zip Pullover Heather/Black | 1 |
-| 8 pc Android Sticker Sheet | 1 |
+
 
 *Findings & Recommendations*
-- Findings: Customers who bought the "YouTube Men's Vintage Henley" also frequently purchased accessories like Google Sunglasses (20 units) and various branded apparel, indicating strong cross-category interest
+- Findings:
+  + Customers who bought "YouTube Men's Vintage Henley" in July 2017 frequently purchased Google-branded apparel (Sunglasses and various Tees), indicating strong brand affinity or cross-brand appeal.
+  + The presence of SPF-15 Slim & Slender Lip Balm suggests a smaller but notable interest in personal care items alongside apparel, hinting at lifestyle-oriented buying behavior.
+  + Multiple apparel items ordered together (hoodies, tees) indicate opportunities for bundled or outfit-based promotions.
 - Recommendations: Leverage these insights to create targeted cross-sell bundles and personalized product recommendations to increase average order value and boost sales
-
+  + Create targeted bundles combining the Vintage Henley with popular Google apparel to increase average order value in July 2017.
+  + Introduce cross-category recommendations featuring personal care products like lip balm to leverage lifestyle buying patterns.
+  + Use co-purchase data to personalize email campaigns and onsite recommendations, focusing on Google and YouTube branded products to boost repeat purchases.
 
 **Query 08: Calculate cohort map from product view to addtocart to purchase in Jan, Feb and March 2017. For example, 100% product view then 40% add_to_cart and 10% purchase**
 
@@ -507,45 +492,39 @@ order by pv.month;
 
 *Findings & Recommendations*
 - Findings
-  + Add-to-cart and purchase rates improved from January to March 2017, indicating better funnel conversion over time
-  + Despite improvements, a large share of users still drop off before adding items to cart (~60–70%)
+  + From January to March 2017, both add-to-cart rates and purchase rates steadily improved, with add-to-cart rising from 28.47% to 37.29%, and purchase rate from 8.31% to 12.64%.
+  + March shows the most significant lift, driven by a higher number of add-to-cart actions (+20% vs. Jan) and purchases (+39%), suggesting successful optimization efforts or seasonal demand.
+  + Despite improvements, there remains a substantial drop-off between add-to-cart and purchase (~66% of carts don’t convert), highlighting a critical conversion bottleneck.
 - Recommendations:
-  + Focus on optimizing the product detail page and add-to-cart process to reduce drop-offs
-  + Implement targeted remarketing for users who viewed but did not add to cart
-  + Continue monitoring monthly trends to validate improvements.
+  + Implement targeted cart abandonment strategies (e.g., follow-up emails or incentives) to recover lost purchases after add-to-cart in early 2017.
+  + Analyze and optimize checkout UX and payment processes during Jan–Mar to reduce friction causing purchase drop-offs.
+  + Leverage insights from March’s uplift by identifying specific changes (campaigns, UX tweaks) and scaling them across all months.
 
-### 💡Conclusion & Key Insights
+### 💡Conclusion: Key Insights & Recommendations
 
-**Traffic & Engagement**
+#### Awareness
+- March 2017 had highest traffic and pageviews, but some channels show high bounce (Google, Facebook).
+- **Recommendations:**  
+  - Focus on quality traffic, improve ad targeting.  
+  - Optimize landing pages to reduce bounce rate.
 
-* Traffic and transactions peak in March, reflecting seasonal and campaign effects.
-* Some months underperform, indicating potential marketing or UX issues.
+#### Interest
+- Non-purchasers browse 2.5–3x more pages but convert less, indicating inefficient browsing.
+- **Recommendations:**  
+  - Improve site search and filtering.  
+  - Retarget heavy browsers who don’t buy.  
+  - Optimize navigation and key landing pages.
 
-**Traffic Quality & Revenue**
+#### Conversion
+- Add-to-cart and purchase rates improved Jan–Mar, but ~66% cart drop-off persists.
+- Repeat buyers average 4.16 transactions.
+- **Recommendations:**  
+  - Deploy cart abandonment campaigns.  
+  - Optimize checkout and payment flows.  
+  - Design loyalty and retention programs.
 
-* Direct and Google channels drive most revenue.
-* High bounce rates on social and partner sources reduce marketing efficiency.
-
-**Customer Behavior**
-
-* Non-purchasers show high engagement but low conversion.
-* Repeat buyers demonstrate strong loyalty with multiple transactions.
-* Average revenue per session provides a clear ROI benchmark.
-
-**Product & Funnel**
-
-* Cross-sell patterns highlight key product bundles to promote.
-* Significant drop-off occurs before the add-to-cart step, limiting conversions.
-
-**Strategic Priorities**
-
-* Optimize low-quality traffic sources to lower bounce rates.
-* Improve conversion experience for non-purchasing users.
-* Focus on customer retention and increasing repeat purchases.
-* Enhance funnel steps, especially add-to-cart and checkout.
-* Allocate budget to high-performing channels and monitor weekly fluctuations.
-
-> **Deep understanding of traffic sources, customer behavior, and funnel drop-off points is critical to boosting revenue and optimizing marketing spend.**
-
-
-
+#### Retention
+- Cross-sell trends show customers buy Google apparel plus personal care products.
+- **Recommendations:**  
+  - Create targeted bundles and personalized offers.  
+  - Use co-purchase data for email and onsite recommendations.
