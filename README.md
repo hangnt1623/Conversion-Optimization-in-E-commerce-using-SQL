@@ -44,7 +44,7 @@ This project is designed for *business leaders, marketing managers, and product 
 There is a table are in the dataset.  
 
 #### 2️⃣ Table Schema
-
+<summary>
 | Field Name | Data Type | Description |
 | --- | --- | --- |
 | fullVisitorId | STRING | The unique visitor ID. |
