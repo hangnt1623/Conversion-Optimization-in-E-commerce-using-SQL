@@ -81,7 +81,9 @@ There is a table are in the dataset.
 
 ## 🔎 Exploring dataset & insights  
 
-**Query 01: Calculate total visit, pageview, transaction for Jan, Feb and March 2017 (order by month)**
+<details>
+  <summary>📊 <strong>Query 01: Calculate total visit, pageview, transaction for Jan, Feb and March 2017 (order by month)</strong></summary>
+****
 
 *Purpose*: To measure user interest and behavior in the first three months of the year, thereby determining traffic trends, engagement levels and shopping needs over time
 -> Help businesses grasp the overall picture of performance at the beginning of the year, see when traffic and transactions are highest, as a basis for assessing seasonal fluctuations
@@ -112,8 +114,12 @@ ORDER BY month_trans ASC
   + Double down on campaigns in March to capitalize on naturally high user intent and traffic.
   + Analyze February’s conversion strategies to replicate successful elements (e.g. UX, offers) across other months.
   + Focus on visit quality by optimizing landing pages and user journeys — not just boosting raw traffic.
+</details>
 
-**Query 02: Bounce rate per traffic source in July 2017 (Bounce_rate = num_bounce/total_visit)**
+<details>
+  <summary>📊 <strong>Query 02: Bounce rate per traffic source in July 2017 (Bounce_rate = num_bounce/total_visit)</strong></summary>
+        
+****
 
 *Purpose*: Identify low-quality traffic sources (high bounce rate), then develop a strategy to optimize ad spend or improve target content.
 
@@ -164,8 +170,13 @@ ORDER BY bounce_rates DESC
   + Refine ad targeting and content for high-volume but high-bounce sources (Google, mobile Facebook, YouTube) to improve user relevance and reduce bounce.
   + Consider reallocating budget away from very low-volume, 100% bounce sources unless strategic value justifies continued spend.
   + Enhance landing page experience and calls to action for traffic from major platforms to better capture and retain visitor interest in July 2017.
+</details>
 
-**Query 03: Revenue by traffic source by week, by month in June 2017**
+
+<details>
+  <summary>📊 <strong>Query 03: Revenue by traffic source by week, by month in June 2017</strong></summary>
+
+****
 
 *Purpose*: Track revenue generated from each traffic source, broken down by time (week/month), to understand which channels actually deliver financial value
 -> allows businesses to evaluate financial performance by marketing channel and track short-term revenue fluctuations, serving campaign analysis or optimizing advertising spending
@@ -264,9 +275,11 @@ ORDER BY time, revenue desc;
   + Maintain and nurture direct traffic channels as a reliable revenue base through loyalty programs and personalized experiences.
   + Optimize Google campaigns by analyzing weekly fluctuations to allocate budget dynamically toward high-performing periods.
   + Evaluate minor traffic sources’ ROI and consider consolidating spend toward channels with stronger, consistent revenue in June 2017.
+</details>
 
 
-**Query 04: Average number of pageviews by purchaser type (purchasers vs non-purchasers) in June, July 2017**
+<details>
+  <summary>📊 <strong>Query 04: Average number of pageviews by purchaser type (purchasers vs non-purchasers) in June, July 2017</strong></summary>
 
 *Purpose*: Understand the differences in interest levels and product discovery behavior of customer groups, thereby helping to identify interaction characteristics related to purchase likelihood.
 ```sql
@@ -319,9 +332,13 @@ order by pd.month;
   + Streamline product discovery by improving site search and filtering to reduce excessive browsing for non-purchasers.
   + Deploy personalized retargeting campaigns aimed at non-purchasers who browse extensively but don’t buy.
   + Test and optimize key landing pages and navigation flows to remove friction points identified from non-purchaser behavior in June–July 2017.
+</details>
 
 
-**Query 05: Average number of transactions per user that made a purchase in July 2017**
+<details>
+  <summary>📊 <strong>Query 05: Average number of transactions per user that made a purchase in July 2017</strong></summary>
+
+****
 
 *Purpose*: Measure customer loyalty and repeat purchase behavior. It is the basis for designing customer retention, upsell, and loyalty programs
 
@@ -346,10 +363,14 @@ group by month;
 - Recommendations
   + Leverage this repeat purchase behavior to design effective **loyalty and retention programs**
   + Explore upsell and cross-sell opportunities to further increase transaction frequency per user
+</details>
 
 
 
-**Query 06: Average amount of money spent per session. Only include purchaser data in July 2017**
+<details>
+  <summary>📊 <strong>Query 06: Average amount of money spent per session. Only include purchaser data in July 2017</strong></summary>
+        
+****
 
 *Purpose*: 
 - Analyze the value of each converted visit, support ROI calculation for campaigns
@@ -376,9 +397,12 @@ group by month;
 - Recommendations:
   + Use this metric as a benchmark to evaluate and optimize marketing ROI
   + Set advertising bid targets aligned with this average to ensure profitable campaigns
+</details>
 
+<details>
+  <summary>📊 <strong>Query 07: Other products purchased by customers who purchased product "YouTube Men's Vintage Henley" in July 2017. Output should show product name and the quantity was ordered</strong></summary>
 
-**Query 07: Other products purchased by customers who purchased product "YouTube Men's Vintage Henley" in July 2017. Output should show product name and the quantity was ordered**
+****
 
 *Purpose*: Understand cross-sell behavior, support smart product recommendations (recommendation engine).
 
@@ -428,8 +452,11 @@ ORDER BY quantity DESC;
   + Create targeted bundles combining the Vintage Henley with popular Google apparel to increase average order value in July 2017.
   + Introduce cross-category recommendations featuring personal care products like lip balm to leverage lifestyle buying patterns.
   + Use co-purchase data to personalize email campaigns and onsite recommendations, focusing on Google and YouTube branded products to boost repeat purchases.
+</details>
 
-**Query 08: Calculate cohort map from product view to addtocart to purchase in Jan, Feb and March 2017. For example, 100% product view then 40% add_to_cart and 10% purchase**
+<details>
+  <summary>📊 <strong>Query 08: Calculate cohort map from product view to addtocart to purchase in Jan, Feb and March 2017. For example, 100% product view then 40% add_to_cart and 10% purchase</strong></summary>
+****
 
 *Purpose*: Evaluate drop-off rates at each step -> understand where customers drop in the conversion funnel, thereby evaluating the effectiveness of each step and prioritizing improving the experience at points with the highest drop-off rates
 
@@ -499,6 +526,7 @@ order by pv.month;
   + Implement targeted cart abandonment strategies (e.g., follow-up emails or incentives) to recover lost purchases after add-to-cart in early 2017.
   + Analyze and optimize checkout UX and payment processes during Jan–Mar to reduce friction causing purchase drop-offs.
   + Leverage insights from March’s uplift by identifying specific changes (campaigns, UX tweaks) and scaling them across all months.
+</details>
 
 ### 💡Conclusion: Key Insights & Recommendations
 
