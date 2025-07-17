@@ -18,18 +18,18 @@ Use SQL for exploring Ecommerce Dataset
 
 ### Background
 
-The company operates in the **E-commerce sector**, with the goal of **increasing revenue** and **optimizing marketing costs**.  
-Currently, the company is facing challenges in understanding the **effectiveness of traffic channels**, **user behavior on the website**, and **points in the purchase journey**.  
-Therefore, **in-depth analysis** is needed to support **decision making** to **improve conversion rates** and **increase order value**.
+The company operates in the E-commerce sector, with the goal of **increasing revenue** and **optimizing marketing costs**.  
+Currently, the company is facing challenges in understanding the **effectiveness of traffic channels**, **user behavior on the website**, and points in the purchase journey.  
+Therefore, in-depth analysis is needed to support decision making to **improve conversion rates** and **increase order value**.
 
 ### Objective:
 ### 📖 What is this project about? What Business Question will it solve?
 
 This project focuses on analyzing the **end-to-end digital customer journey** — from how users **arrive at the website**, **interact with pages and products**, to how they **convert into buyers** and what they purchase.  
-It leverages **web analytics** and **transaction data** to uncover patterns in **user behavior**, **traffic performance**, and **conversion efficiency**.
+It leverages web analytics and transaction data to uncover patterns in **user behavior**, **traffic performance**, and **conversion efficiency**.
 
 The main business question this project aims to answer is:  
-**"How effectively are we converting website traffic into revenue, and where in the customer journey should we focus our efforts to improve engagement, retention, and sales performance?"**
+**"❓️How effectively are we converting website traffic into revenue, and where in the customer journey should we focus our efforts to improve engagement, retention, and sales performance?"**
 
 
 ### 👤 Who is this project for?  
