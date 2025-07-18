@@ -1,11 +1,12 @@
 # Conversion Optimization in E-commerce using SQL
 Use SQL for exploring Ecommerce Dataset
+
 ![image](https://github.com/user-attachments/assets/dc267b17-4eb9-4eb4-83bf-b3d329bbe09d)
 
 
-- Author: Nguyen Thuy Hang
-- Date: 2025-06-22
-- Tools Used: SQL  
+- **Author**: Nguyen Thuy Hang
+- **Date**: 2025-06-22
+- **Tools Used**: SQL  
 
 # 📑 Table of Contents  
 1. [📌 Background & Overview](#-background--overview)  
@@ -82,10 +83,10 @@ There is a table are in the dataset.
 ## 🔎 Exploring dataset & insights  
 
 <details>
-  <summary>📊 <strong>Query 01: Calculate total visit, pageview, transaction for Jan, Feb and March 2017 (order by month)</strong></summary>
+  <summary>🚀 <strong>Query 01: Calculate total visit, pageview, transaction for Jan, Feb and March 2017 (order by month)</strong></summary>
 ****
 
-*Purpose*: To measure user interest and behavior in the first three months of the year, thereby determining traffic trends, engagement levels and shopping needs over time
+***Purpose***: To measure user interest and behavior in the first three months of the year, thereby determining traffic trends, engagement levels and shopping needs over time
 -> Help businesses grasp the overall picture of performance at the beginning of the year, see when traffic and transactions are highest, as a basis for assessing seasonal fluctuations
 
 ```sql
@@ -98,30 +99,30 @@ WHERE _table_suffix between '0101' AND '0331'
 GROUP BY month_trans
 ORDER BY month_trans ASC
 ```
-*Result*
+***Result***
 | month_trans | total_visits | total_pageviews | total_transactions |
 | --- | --- | --- | --- |
 | 201701 | 64694 | 257708 | 713 |
 | 201702 | 62192 | 233373 | 733 |
 | 201703 | 69931 | 259522 | 993 |
 
-*Findings & Recommendations*
-- Findings:
+***Findings & Recommendations***
+- **Findings:**
   + March 2017 shows peak performance with the highest visits (69,931), pageviews (259,522), and transactions (993), indicating stronger shopping intent and conversion during this month.
   + February 2017 had fewer visits and pageviews than January, yet generated more transactions, suggesting improved conversion efficiency despite shorter time (28 days).
   + Traffic volume alone doesn’t guarantee sales — as seen in January (more visits than February but fewer transactions), highlighting the importance of engagement quality over quantity.
-- Recommendations:
+- **Recommendations:**
   + Double down on campaigns in March to capitalize on naturally high user intent and traffic.
   + Analyze February’s conversion strategies to replicate successful elements (e.g. UX, offers) across other months.
   + Focus on visit quality by optimizing landing pages and user journeys — not just boosting raw traffic.
 </details>
 
 <details>
-  <summary>📊 <strong>Query 02: Bounce rate per traffic source in July 2017 (Bounce_rate = num_bounce/total_visit)</strong></summary>
+  <summary>🚀 <strong>Query 02: Bounce rate per traffic source in July 2017 (Bounce_rate = num_bounce/total_visit)</strong></summary>
         
 ****
 
-*Purpose*: Identify low-quality traffic sources (high bounce rate), then develop a strategy to optimize ad spend or improve target content.
+***Purpose***: Identify low-quality traffic sources (high bounce rate), then develop a strategy to optimize ad spend or improve target content.
 
 ```sql
 SELECT  trafficSource.source
@@ -132,7 +133,7 @@ FROM bigquery-public-data.google_analytics_sample.ga_sessions_20170701
 GROUP BY trafficSource.source
 ORDER BY bounce_rates DESC
 ```
-*Result*
+***Result***
 
 | source | total_visits | num_bounce | bounce_rates |
 | --- | --- | --- | --- |
@@ -161,12 +162,12 @@ ORDER BY bounce_rates DESC
 | t.co | 1 |  |  |
 
 
-*Findings & Recommendations*
-- Findings:
+***Findings & Recommendations***
+- **Findings:**
   + Several traffic sources like yahoo, quora.com, l.facebook.com, and others have a 100% bounce rate but very low visit counts, indicating minimal engagement from these niche or referral channels in July 2017.
   + Major sources such as google (56.6%), m.facebook.com (59.6%), and youtube.com (74.7%) show relatively high bounce rates despite high traffic volumes, suggesting a significant portion of visits are low-quality or non-engaging.
   + Direct traffic and smaller sources like bing (50%) and reddit.com (25%) show lower bounce rates, implying better visitor engagement from these channels during this period.
-- Recommendations:
+- **Recommendations:**
   + Refine ad targeting and content for high-volume but high-bounce sources (Google, mobile Facebook, YouTube) to improve user relevance and reduce bounce.
   + Consider reallocating budget away from very low-volume, 100% bounce sources unless strategic value justifies continued spend.
   + Enhance landing page experience and calls to action for traffic from major platforms to better capture and retain visitor interest in July 2017.
@@ -174,11 +175,11 @@ ORDER BY bounce_rates DESC
 
 
 <details>
-  <summary>📊 <strong>Query 03: Revenue by traffic source by week, by month in June 2017</strong></summary>
+  <summary>🚀 <strong>Query 03: Revenue by traffic source by week, by month in June 2017</strong></summary>
 
 ****
 
-*Purpose*: Track revenue generated from each traffic source, broken down by time (week/month), to understand which channels actually deliver financial value
+***Purpose***: Track revenue generated from each traffic source, broken down by time (week/month), to understand which channels actually deliver financial value
 -> allows businesses to evaluate financial performance by marketing channel and track short-term revenue fluctuations, serving campaign analysis or optimizing advertising spending
 
 ```sql
@@ -208,7 +209,7 @@ GROUP BY time, source
 
 ORDER BY time, revenue desc;
 ```
-*Result*
+***Result***
 - Month
 
 | time_type | time | source | revenue |
@@ -266,12 +267,12 @@ ORDER BY time, revenue desc;
 | Week | 201726 | yahoo | 20.39 |
 
 
-*Findings & Recommendations*
-- Findings
+***Findings & Recommendations***
+- **Findings:**
   + In June 2017, direct traffic dominated revenue, contributing nearly $97K monthly and consistently leading each week, highlighting strong brand loyalty or repeat visitors.
   + Google and DFA are the next top contributors, with Google showing fluctuations week-to-week but maintaining solid overall revenue, indicating effective but variable campaign performance.
   + Smaller sources like mail.google.com, search.myway.com, and groups.google.com generate minimal revenue, suggesting limited impact despite some presence.
-- Recommendations
+- **Recommendations:**
   + Maintain and nurture direct traffic channels as a reliable revenue base through loyalty programs and personalized experiences.
   + Optimize Google campaigns by analyzing weekly fluctuations to allocate budget dynamically toward high-performing periods.
   + Evaluate minor traffic sources’ ROI and consider consolidating spend toward channels with stronger, consistent revenue in June 2017.
@@ -279,9 +280,9 @@ ORDER BY time, revenue desc;
 
 
 <details>
-  <summary>📊 <strong>Query 04: Average number of pageviews by purchaser type (purchasers vs non-purchasers) in June, July 2017</strong></summary>
+  <summary>🚀 <strong>Query 04: Average number of pageviews by purchaser type (purchasers vs non-purchasers) in June, July 2017</strong></summary>
 
-*Purpose*: Understand the differences in interest levels and product discovery behavior of customer groups, thereby helping to identify interaction characteristics related to purchase likelihood.
+***Purpose***: Understand the differences in interest levels and product discovery behavior of customer groups, thereby helping to identify interaction characteristics related to purchase likelihood.
 ```sql
 with 
 purchaser_data as(
@@ -317,18 +318,18 @@ from purchaser_data pd
 full join non_purchaser_data using(month)
 order by pd.month;
 ```
-*Result*
+***Result***
 | month | avg_pageviews_purchase | avg_pageviews_non_purchase |
 | --- | --- | --- |
 | 201706 | 94.0205011389522 | 316.865588463417 |
 | 201707 | 124.23755186722 | 334.05655979568 |
 
-*Findings & Recommendations*
-- Findings
+***Findings & Recommendations***
+- **Findings:**
   + In June and July 2017, non-purchasers consistently viewed 2.5 to 3 times more pages on average than purchasers, indicating higher browsing but lower conversion.
   + Purchasers have lower average pageviews, suggesting they find what they need more quickly or have more targeted interactions.
   + The gap widened slightly in July, possibly reflecting increased casual browsing or ineffective site navigation for non-purchasers.
-- Recommendations
+- **Recommendations:**
   + Streamline product discovery by improving site search and filtering to reduce excessive browsing for non-purchasers.
   + Deploy personalized retargeting campaigns aimed at non-purchasers who browse extensively but don’t buy.
   + Test and optimize key landing pages and navigation flows to remove friction points identified from non-purchaser behavior in June–July 2017.
@@ -336,11 +337,11 @@ order by pd.month;
 
 
 <details>
-  <summary>📊 <strong>Query 05: Average number of transactions per user that made a purchase in July 2017</strong></summary>
+  <summary>🚀 <strong>Query 05: Average number of transactions per user that made a purchase in July 2017</strong></summary>
 
 ****
 
-*Purpose*: Measure customer loyalty and repeat purchase behavior. It is the basis for designing customer retention, upsell, and loyalty programs
+***Purpose***: Measure customer loyalty and repeat purchase behavior. It is the basis for designing customer retention, upsell, and loyalty programs
 
 ```sql
 select
@@ -353,14 +354,14 @@ where  totals.transactions>=1
 and product.productRevenue is not null
 group by month;
 ```
-*Result*
+***Result***
 | month | Avg_total_transactions_per_user |
 | --- | --- |
 | 201707 | 4.16390041493776 |
 
-*Findings & Recommendations*
-- Findings: On average, each purchasing user made about **4.16 transactions** in July 2017, indicating a healthy level of repeat buying
-- Recommendations
+***Findings & Recommendations***
+- **Findings:** On average, each purchasing user made about **4.16 transactions** in July 2017, indicating a healthy level of repeat buying
+- **Recommendations:**
   + Leverage this repeat purchase behavior to design effective **loyalty and retention programs**
   + Explore upsell and cross-sell opportunities to further increase transaction frequency per user
 </details>
@@ -368,11 +369,11 @@ group by month;
 
 
 <details>
-  <summary>📊 <strong>Query 06: Average amount of money spent per session. Only include purchaser data in July 2017</strong></summary>
+  <summary>🚀 <strong>Query 06: Average amount of money spent per session. Only include purchaser data in July 2017</strong></summary>
         
 ****
 
-*Purpose*: 
+***Purpose***: 
 - Analyze the value of each converted visit, support ROI calculation for campaigns
 - Help set benchmark AOV per session, thereby setting target price for advertising campaigns
 
@@ -387,24 +388,24 @@ where product.productRevenue is not null
   and totals.transactions>=1
 group by month;
 ```
-*Result*
+***Result***
 | month | avg_revenue_by_user_per_visit |
 | --- | --- |
 | 201707 | 43.8565983480512 |
 
-*Findings & Recommendations*
-- Findings: The average revenue per session for purchasers in July 2017 is $43.86, indicating the typical value gained from each converted visit.
-- Recommendations:
+***Findings & Recommendations***
+- **Findings:** The average revenue per session for purchasers in July 2017 is $43.86, indicating the typical value gained from each converted visit.
+- **Recommendations:**
   + Use this metric as a benchmark to evaluate and optimize marketing ROI
   + Set advertising bid targets aligned with this average to ensure profitable campaigns
 </details>
 
 <details>
-  <summary>📊 <strong>Query 07: Other products purchased by customers who purchased product "YouTube Men's Vintage Henley" in July 2017. Output should show product name and the quantity was ordered</strong></summary>
+  <summary>🚀 <strong>Query 07: Other products purchased by customers who purchased product "YouTube Men's Vintage Henley" in July 2017. Output should show product name and the quantity was ordered</strong></summary>
 
 ****
 
-*Purpose*: Understand cross-sell behavior, support smart product recommendations (recommendation engine).
+***Purpose***: Understand cross-sell behavior, support smart product recommendations (recommendation engine).
 
 ```sql
 with buyer_list as(
@@ -430,7 +431,7 @@ WHERE product.v2ProductName != "YouTube Men's Vintage Henley"
 GROUP BY other_purchased_products
 ORDER BY quantity DESC;
 ```
-*Result*
+***Result***
 - Top 6 highest other products purchased by customers who purchased product "YouTube Men's Vintage Henley" in July 2017
   
 | other_purchased_products | quantity |
@@ -443,22 +444,22 @@ ORDER BY quantity DESC;
 | Google Men's Short Sleeve Badge Tee Charcoal | 3 |
 
 
-*Findings & Recommendations*
-- Findings:
+***Findings & Recommendations***
+- **Findings:**
   + Customers who bought "YouTube Men's Vintage Henley" in July 2017 frequently purchased Google-branded apparel (Sunglasses and various Tees), indicating strong brand affinity or cross-brand appeal.
   + The presence of SPF-15 Slim & Slender Lip Balm suggests a smaller but notable interest in personal care items alongside apparel, hinting at lifestyle-oriented buying behavior.
   + Multiple apparel items ordered together (hoodies, tees) indicate opportunities for bundled or outfit-based promotions.
-- Recommendations: Leverage these insights to create targeted cross-sell bundles and personalized product recommendations to increase average order value and boost sales
+- **Recommendations:** Leverage these insights to create targeted cross-sell bundles and personalized product recommendations to increase average order value and boost sales
   + Create targeted bundles combining the Vintage Henley with popular Google apparel to increase average order value in July 2017.
   + Introduce cross-category recommendations featuring personal care products like lip balm to leverage lifestyle buying patterns.
   + Use co-purchase data to personalize email campaigns and onsite recommendations, focusing on Google and YouTube branded products to boost repeat purchases.
 </details>
 
 <details>
-  <summary>📊 <strong>Query 08: Calculate cohort map from product view to addtocart to purchase in Jan, Feb and March 2017. For example, 100% product view then 40% add_to_cart and 10% purchase</strong></summary>
+  <summary>🚀 <strong>Query 08: Calculate cohort map from product view to addtocart to purchase in Jan, Feb and March 2017. For example, 100% product view then 40% add_to_cart and 10% purchase</strong></summary>
 ****
 
-*Purpose*: Evaluate drop-off rates at each step -> understand where customers drop in the conversion funnel, thereby evaluating the effectiveness of each step and prioritizing improving the experience at points with the highest drop-off rates
+***Purpose***: Evaluate drop-off rates at each step -> understand where customers drop in the conversion funnel, thereby evaluating the effectiveness of each step and prioritizing improving the experience at points with the highest drop-off rates
 
 ```sql
 with
@@ -510,19 +511,19 @@ left join add_to_cart a on pv.month = a.month
 left join purchase p on pv.month = p.month
 order by pv.month;
 ```
-*Result*
+***Result***
 | month | num_product_view | num_addtocart | num_purchase | add_to_cart_rate | purchase_rate |
 | --- | --- | --- | --- | --- | --- |
 | 201701 | 25787 | 7342 | 2143 | 28.47 | 8.31 |
 | 201702 | 21489 | 7360 | 2060 | 34.25 | 9.59 |
 | 201703 | 23549 | 8782 | 2977 | 37.29 | 12.64 |
 
-*Findings & Recommendations*
-- Findings
+***Findings & Recommendations***
+- **Findings:**
   + From January to March 2017, both add-to-cart rates and purchase rates steadily improved, with add-to-cart rising from 28.47% to 37.29%, and purchase rate from 8.31% to 12.64%.
   + March shows the most significant lift, driven by a higher number of add-to-cart actions (+20% vs. Jan) and purchases (+39%), suggesting successful optimization efforts or seasonal demand.
   + Despite improvements, there remains a substantial drop-off between add-to-cart and purchase (~66% of carts don’t convert), highlighting a critical conversion bottleneck.
-- Recommendations:
+- **Recommendations:**
   + Implement targeted cart abandonment strategies (e.g., follow-up emails or incentives) to recover lost purchases after add-to-cart in early 2017.
   + Analyze and optimize checkout UX and payment processes during Jan–Mar to reduce friction causing purchase drop-offs.
   + Leverage insights from March’s uplift by identifying specific changes (campaigns, UX tweaks) and scaling them across all months.
@@ -530,20 +531,20 @@ order by pv.month;
 
 ### 💡Conclusion: Key Insights & Recommendations
 
-#### Awareness
+#### 💫 Awareness
 - March 2017 had highest traffic and pageviews, but some channels show high bounce (Google, Facebook).
 - **Recommendations:**  
   - Focus on quality traffic, improve ad targeting.  
   - Optimize landing pages to reduce bounce rate.
 
-#### Interest
+#### 💫 Interest
 - Non-purchasers browse 2.5–3x more pages but convert less, indicating inefficient browsing.
 - **Recommendations:**  
   - Improve site search and filtering.  
   - Retarget heavy browsers who don’t buy.  
   - Optimize navigation and key landing pages.
 
-#### Conversion
+#### 💫 Conversion
 - Add-to-cart and purchase rates improved Jan–Mar, but ~66% cart drop-off persists.
 - Repeat buyers average 4.16 transactions.
 - **Recommendations:**  
@@ -551,7 +552,7 @@ order by pv.month;
   - Optimize checkout and payment flows.  
   - Design loyalty and retention programs.
 
-#### Retention
+#### 💫 Retention
 - Cross-sell trends show customers buy Google apparel plus personal care products.
 - **Recommendations:**  
   - Create targeted bundles and personalized offers.  
